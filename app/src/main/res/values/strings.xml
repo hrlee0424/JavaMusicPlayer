@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MusicPlayer</string>
+    <string name="menu1">PlayList</string>
+    <string name="menu2">Song</string>
+    <string name="menu3">Artist</string>
+    <string name="menu4">Albums</string>
+    <string name="menu5">Folder</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
