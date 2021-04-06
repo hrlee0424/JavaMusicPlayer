@@ -42,7 +42,7 @@ private Fragment playListFragment, songFragment, artistFragment, albumsFragment,
         checkPermission();
         setTheme(R.style.Theme_MusicPlayer);
         setContentView(R.layout.activity_main);
-        
+
         FrameLayout frameLayout = findViewById(R.id.frameLayout);
         BottomNavigationView bottomView = findViewById(R.id.bottomNavigationView);
 
@@ -56,12 +56,11 @@ private Fragment playListFragment, songFragment, artistFragment, albumsFragment,
         selectEvent(playListFragment);
     }
 
-
     private void selectEvent(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+    private final BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()){
@@ -107,7 +106,6 @@ private Fragment playListFragment, songFragment, artistFragment, albumsFragment,
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.i(TAG, "onRequestPermissionsResult: ///////////////////" + requestCode);
 
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {

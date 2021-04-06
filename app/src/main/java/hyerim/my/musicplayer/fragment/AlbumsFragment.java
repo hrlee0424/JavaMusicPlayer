@@ -1,10 +1,18 @@
 package hyerim.my.musicplayer.fragment;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import hyerim.my.musicplayer.R;
+import hyerim.my.musicplayer.adapter.AlbumsAdapter;
 
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +23,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class AlbumsFragment extends Fragment {
-
+    private static String TAG = AlbumsFragment.class.getSimpleName();
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,5 +69,32 @@ public class AlbumsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_albums, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        RecyclerView albums_recyclerView = getActivity().findViewById(R.id.albums_recyclerView);
+        RecyclerView.LayoutManager layoutManager =new LinearLayoutManager(getContext());
+        albums_recyclerView.setLayoutManager(layoutManager);
+
+        String[] projection = {
+                MediaStore.Audio.Albums._ID,
+                MediaStore.Audio.Albums.ALBUM,
+                MediaStore.Audio.Albums.ARTIST,
+                MediaStore.Audio.Albums.ALBUM_ART,
+        };
+
+        ContentResolver content = getActivity().getContentResolver();
+        Cursor media_cursor = content.query(
+                MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                projection,
+                null,//Selection Statement
+                null,//Selection Arguments replacement for ? in where id=?
+                MediaStore.Audio.Albums.ALBUM + "");
+
+        albums_recyclerView.setAdapter(new AlbumsAdapter(getContext(), media_cursor));
+
     }
 }
