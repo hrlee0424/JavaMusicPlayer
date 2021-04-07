@@ -6,9 +6,11 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import hyerim.my.musicplayer.R;
+import hyerim.my.musicplayer.RecyclerViewDecoration;
 import hyerim.my.musicplayer.adapter.SongAdapter;
 
 import android.provider.MediaStore;
@@ -97,5 +99,10 @@ public class SongFragment extends Fragment {
                 MediaStore.Audio.Media.TITLE);
 
         song_recyclerView.setAdapter(new SongAdapter(getContext(), media_cursor));
+        song_recyclerView.addItemDecoration(new RecyclerViewDecoration(10));
+        DividerItemDecoration dividerItemDecoration =
+                new DividerItemDecoration(getContext(),new LinearLayoutManager(getContext()).getOrientation());
+        song_recyclerView.addItemDecoration(dividerItemDecoration);
+
     }
 }

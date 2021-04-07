@@ -53,8 +53,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsView
 
         Glide.with(context)
                 .load(sAlbumArtUri)
-                .placeholder(R.drawable.splash_icon)
-                .error(R.drawable.ic_launcher_background)
+//                .placeholder(R.drawable.splash_icon)
+                .error(R.drawable.ic_baseline_album_24)
                 .fallback(R.drawable.ic_baseline_album_24)
                 .into(holder.imageView);
     }

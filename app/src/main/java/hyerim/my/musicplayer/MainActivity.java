@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
+import hyerim.my.musicplayer.adapter.ViewPagerAdapter;
 import hyerim.my.musicplayer.fragment.AlbumsFragment;
 import hyerim.my.musicplayer.fragment.ArtistFragment;
 import hyerim.my.musicplayer.fragment.FolderFragment;
@@ -13,6 +16,7 @@ import hyerim.my.musicplayer.fragment.SongFragment;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -30,7 +34,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
-private Fragment playListFragment, songFragment, artistFragment, albumsFragment, folderFragment;
+    private Fragment playListFragment, songFragment, artistFragment, albumsFragment, folderFragment;
+    private FragmentStateAdapter pagerAdapter;
+    private ViewPager2 viewPager2;
+    public BottomNavigationView bottomView;
 
     @Override
     protected void onStart() {
@@ -40,14 +47,15 @@ private Fragment playListFragment, songFragment, artistFragment, albumsFragment,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         setTheme(R.style.Theme_MusicPlayer);
         setContentView(R.layout.activity_main);
         checkPermission();
-        FrameLayout frameLayout = findViewById(R.id.frameLayout);
-        BottomNavigationView bottomView = findViewById(R.id.bottomNavigationView);
+//        FrameLayout frameLayout = findViewById(R.id.frameLayout);
+        viewPager2 = findViewById(R.id.viewPager2);
+        pagerAdapter = new ViewPagerAdapter(this);
+        bottomView = findViewById(R.id.bottomNavigationView);
         LinearLayout playLayout = findViewById(R.id.playLayout);
+        viewPager2.setAdapter(pagerAdapter);
 
         bottomView.setOnNavigationItemSelectedListener(listener);
         playListFragment = new PlayListFragment();
@@ -56,37 +64,80 @@ private Fragment playListFragment, songFragment, artistFragment, albumsFragment,
         albumsFragment = new AlbumsFragment();
         folderFragment = new FolderFragment();
 
-        selectEvent(playListFragment);
+//        selectEvent(playListFragment);
 
         playLayout.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
             startActivity(intent);
         });
 
+        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+            @Override
+            public void onPageSelected(int position) {
+                super.onPageSelected(position);
+                select(position);
+            }
+        });
     }
 
-    private void selectEvent(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
+    @Override
+    public void onBackPressed() {
+        if (viewPager2.getCurrentItem() == 0) {
+            super.onBackPressed();
+        } else {
+            viewPager2.setCurrentItem(viewPager2.getCurrentItem() - 1);
+        }
     }
+
+    public void select(int position){
+        switch (position){
+            case 0:
+                bottomView.setSelectedItemId(R.id.menu1); //bottomNavigationView 선택하기
+                break;
+            case 1:
+                bottomView.setSelectedItemId(R.id.menu2); //bottomNavigationView 선택하기
+                break;
+            case 2:
+                bottomView.setSelectedItemId(R.id.menu3); //bottomNavigationView 선택하기
+                break;
+            case 3:
+                bottomView.setSelectedItemId(R.id.menu4); //bottomNavigationView 선택하기
+                break;
+            case 4:
+                bottomView.setSelectedItemId(R.id.menu5); //bottomNavigationView 선택하기
+                break;
+        }
+        bottomView.setSelected(true);
+    }
+
+    /*private void selectEvent(Fragment fragment){
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.viewPager2, fragment).commit();
+    }*/
 
     private final BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()){
                 case R.id.menu1:
-                    selectEvent(playListFragment);
+//                    selectEvent(playListFragment);
+                    viewPager2.setCurrentItem(0);
                     return true;
                 case R.id.menu2:
-                    selectEvent(songFragment);
+                    viewPager2.setCurrentItem(1);
+//                    selectEvent(songFragment);
                     return true;
                 case R.id.menu3:
-                    selectEvent(artistFragment);
+                    viewPager2.setCurrentItem(2);
+//                    selectEvent(artistFragment);
                     return true;
                 case R.id.menu4:
-                    selectEvent(albumsFragment);
+                    viewPager2.setCurrentItem(3);
+//                    selectEvent(albumsFragment);
                     return true;
                 case R.id.menu5:
-                    selectEvent(folderFragment);
+                    viewPager2.setCurrentItem(4);
+//                    selectEvent(folderFragment);
                     return true;
             }
             return false;
