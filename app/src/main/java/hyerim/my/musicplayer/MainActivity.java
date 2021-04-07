@@ -39,10 +39,11 @@ private Fragment playListFragment, songFragment, artistFragment, albumsFragment,
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        checkPermission();
+
+
         setTheme(R.style.Theme_MusicPlayer);
         setContentView(R.layout.activity_main);
-
+        checkPermission();
         FrameLayout frameLayout = findViewById(R.id.frameLayout);
         BottomNavigationView bottomView = findViewById(R.id.bottomNavigationView);
 

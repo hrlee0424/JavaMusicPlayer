@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="bottomIconColor">#9C9999</color>
+    <color name="playBtnColor">#000000</color>
+    <color name="playBarBackColor">#FFFFFF</color>
 </resources>

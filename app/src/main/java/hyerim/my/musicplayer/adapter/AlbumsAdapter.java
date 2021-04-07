@@ -22,17 +22,16 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsView
     private String TAG = AlbumsAdapter.class.getSimpleName();
     private Cursor cursor;
     private Context context;
-    private LayoutInflater inflater;
 
     public AlbumsAdapter(Context context, Cursor cursor){
         this.context = context;
         this.cursor = cursor;
-        inflater = LayoutInflater.from(context);
     }
 
     @NonNull
     @Override
     public AlbumsAdapter.AlbumsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) ;
         View v = inflater.inflate(R.layout.albums_list_item, parent, false);
         return new AlbumsViewHolder(v);
     }
