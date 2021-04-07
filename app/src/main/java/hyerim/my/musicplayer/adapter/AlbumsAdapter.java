@@ -36,6 +36,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsView
         View v = inflater.inflate(R.layout.albums_list_item, parent, false);
         return new AlbumsViewHolder(v);
     }
+
     long albumId;
     @Override
     public void onBindViewHolder(@NonNull AlbumsAdapter.AlbumsViewHolder holder, int position) {
@@ -49,7 +50,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsView
         Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
         Uri sAlbumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
 
-        holder.textView.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST)));
+        holder.textView.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM)));
 
         Glide.with(context)
                 .load(sAlbumArtUri)
@@ -74,11 +75,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsView
             imageView = itemView.findViewById(R.id.albums_item_img);
             imageView.setClipToOutline(true);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, textView.getText().toString(),Toast.LENGTH_SHORT).show();
-                }
+            itemView.setOnClickListener(v -> {
+                Toast.makeText(context, textView.getText().toString(),Toast.LENGTH_SHORT).show();
             });
         }
     }

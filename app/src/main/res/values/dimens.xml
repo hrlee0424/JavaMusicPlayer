@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="list_item_textSize">20dp</dimen>
+    <dimen name="list_item_textSize">18dp</dimen>
+    <dimen name="durationTextSize">14dp</dimen>
     <dimen name="play_bar_icon">30dp</dimen>
 </resources>

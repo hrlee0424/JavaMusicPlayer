@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,13 +50,14 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         }
 
         long albumId = cursor.getLong(cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ALBUM_ID));
-
+        long duration = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DURATION));
         Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
         Uri sAlbumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
 
         Log.i(TAG, "onBindViewHolder: " + title + " " + artist + " " + album + " " + cursor.getPosition());
         holder.song_list_text.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
         holder.song_list_artist.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+        holder.song_list_duration.setText(DateFormat.format("mm:ss", duration));
 
         Glide.with(context)
                 .load(sAlbumArtUri)
@@ -91,7 +93,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
 
     class SongViewHolder extends RecyclerView.ViewHolder{
-        TextView song_list_text, song_list_artist;
+        TextView song_list_text, song_list_artist, song_list_duration;
         ImageView song_list_img;
 
         public SongViewHolder(@NonNull View itemView) {
@@ -99,6 +101,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             song_list_text = itemView.findViewById(R.id.song_list_text);
             song_list_artist = itemView.findViewById(R.id.song_list_artist);
             song_list_img = itemView.findViewById(R.id.song_list_img);
+            song_list_duration = itemView.findViewById(R.id.song_list_duration);
             song_list_img.setClipToOutline(true); //둥근 모서리 적용
 
             itemView.setOnClickListener(new View.OnClickListener() {

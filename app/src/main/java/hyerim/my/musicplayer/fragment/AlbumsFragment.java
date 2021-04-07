@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import hyerim.my.musicplayer.R;
@@ -76,7 +77,9 @@ public class AlbumsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         RecyclerView albums_recyclerView = getActivity().findViewById(R.id.albums_recyclerView);
-        RecyclerView.LayoutManager layoutManager =new LinearLayoutManager(getContext());
+//        RecyclerView.LayoutManager layoutManager =new LinearLayoutManager(getContext());
+        RecyclerView.LayoutManager layoutManager =new GridLayoutManager(getContext(),2);
+
         albums_recyclerView.setLayoutManager(layoutManager);
 
         String[] projection = {
