@@ -23,6 +23,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -46,6 +47,7 @@ private Fragment playListFragment, songFragment, artistFragment, albumsFragment,
         checkPermission();
         FrameLayout frameLayout = findViewById(R.id.frameLayout);
         BottomNavigationView bottomView = findViewById(R.id.bottomNavigationView);
+        LinearLayout playLayout = findViewById(R.id.playLayout);
 
         bottomView.setOnNavigationItemSelectedListener(listener);
         playListFragment = new PlayListFragment();
@@ -55,6 +57,12 @@ private Fragment playListFragment, songFragment, artistFragment, albumsFragment,
         folderFragment = new FolderFragment();
 
         selectEvent(playListFragment);
+
+        playLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
+            startActivity(intent);
+        });
+
     }
 
     private void selectEvent(Fragment fragment){

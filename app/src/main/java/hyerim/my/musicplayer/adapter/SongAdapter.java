@@ -1,16 +1,21 @@
 package hyerim.my.musicplayer.adapter;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,16 +45,27 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
     @Override
     public void onBindViewHolder(@NonNull SongAdapter.SongViewHolder holder, int position) {
         if ( !cursor.moveToPosition(position) ) {
-//            cursor.moveToFirst();
-            throw new IllegalStateException("couldn't move cursor to position " + position);
+            cursor.moveToFirst();
         }
 
+        long albumId = cursor.getLong(cursor.getColumnIndex(android.provider.MediaStore.Audio.Media.ALBUM_ID));
+
+        Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+        Uri sAlbumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
 
         Log.i(TAG, "onBindViewHolder: " + title + " " + artist + " " + album + " " + cursor.getPosition());
         holder.song_list_text.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
+        holder.song_list_artist.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+
+        Glide.with(context)
+                .load(sAlbumArtUri)
+                .placeholder(R.drawable.splash_icon)
+                .error(R.drawable.ic_launcher_background)
+                .fallback(R.drawable.ic_baseline_album_24)
+                .into(holder.song_list_img);
 
 //        album_art = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ARTIST));
-        holder.song_list_text.setOnClickListener(new View.OnClickListener() {
+        /*holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 title = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE));
@@ -65,7 +81,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
                 intent.putExtras(bundle);
                 v.getContext().startActivity(intent);
             }
-        });
+        });*/
     }
 
     @Override
@@ -75,13 +91,17 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
 
     class SongViewHolder extends RecyclerView.ViewHolder{
-        TextView song_list_text;
+        TextView song_list_text, song_list_artist;
+        ImageView song_list_img;
 
         public SongViewHolder(@NonNull View itemView) {
             super(itemView);
             song_list_text = itemView.findViewById(R.id.song_list_text);
+            song_list_artist = itemView.findViewById(R.id.song_list_artist);
+            song_list_img = itemView.findViewById(R.id.song_list_img);
+            song_list_img.setClipToOutline(true); //둥근 모서리 적용
 
-            /*itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(context, song_list_text.getText().toString(), Toast.LENGTH_SHORT).show();
@@ -96,7 +116,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
                     intent.putExtras(bundle);
                     v.getContext().startActivity(intent);
                 }
-            });*/
+            });
         }
     }
 }

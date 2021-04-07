@@ -3,55 +3,66 @@ package hyerim.my.musicplayer.dto;
 import androidx.annotation.NonNull;
 
 public class Song {
-    private final String mTitle;
-    private final int mTrackNumber;
-    private final int mDuration;
-    private final String mPath;
-    private final String mAlbumName;
-    private final int mArtistId;
-    private final String mArtistName;
-    private final int mYear;
+    private String directory;
+    private String name;
+    private String artist;
+    private String album;
+    private String genre;
+    private String year;
+    private String duration;
+    private String track;
+    private String displayName;
+    private String albumArt;
 
-    public Song(@NonNull final String title, final int trackNumber, final int year, final int duration, final String path, final String albumName, final int artistId, final String artistName){
-        this.mTitle = title;
-        this.mTrackNumber = trackNumber;
-        this.mYear = year;
-        this.mDuration = duration;
-        this.mPath = path;
-        this.mAlbumName = albumName;
-        this.mArtistId = artistId;
-        this.mArtistName = artistName;
+    public Song(String directory, String name, String artist, String album,  String year, String duration, String track, String displayName,String albumArt) {
+        this.directory = directory;
+        this.name = name;
+        this.artist = artist;
+        this.album = album;
+        this.year = year;
+        this.duration = duration;
+        this.track = track;
+        this.displayName = displayName;
+        this.albumArt=albumArt;
     }
 
-    public String getmTitle() {
-        return mTitle;
+    public String getDirectory() {
+        return directory;
     }
 
-    public int getmTrackNumber() {
-        return mTrackNumber;
+    public String getName() {
+        return name;
     }
 
-    public int getmDuration() {
-        return mDuration;
+    public String getArtist() {
+        return artist;
     }
 
-    public String getmPath() {
-        return mPath;
+    public String getAlbum() {
+        return album;
     }
 
-    public String getmAlbumName() {
-        return mAlbumName;
+    public String getGenre() {
+        return genre;
     }
 
-    public int getmArtistId() {
-        return mArtistId;
+    public String getYear() {
+        return year;
     }
 
-    public String getmArtistName() {
-        return mArtistName;
+    public String getDuration() {
+        return duration;
     }
 
-    public int getmYear() {
-        return mYear;
+    public String getTrack() {
+        return track;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public String getAlbumArt() {
+        return albumArt;
     }
 }

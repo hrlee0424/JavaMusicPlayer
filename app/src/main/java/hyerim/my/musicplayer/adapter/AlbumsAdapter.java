@@ -1,7 +1,9 @@
 package hyerim.my.musicplayer.adapter;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,7 +16,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.helper.widget.Layer;
 import androidx.recyclerview.widget.RecyclerView;
 import hyerim.my.musicplayer.R;
 
@@ -35,18 +36,23 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsView
         View v = inflater.inflate(R.layout.albums_list_item, parent, false);
         return new AlbumsViewHolder(v);
     }
-
+    long albumId;
     @Override
     public void onBindViewHolder(@NonNull AlbumsAdapter.AlbumsViewHolder holder, int position) {
         if (!cursor.moveToPosition(position)) {
             cursor.moveToFirst();
         }
+
+        albumId = cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Albums._ID));
+
+        Log.i(TAG, "onBindViewHolder: " + albumId);
+        Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+        Uri sAlbumArtUri = ContentUris.withAppendedId(sArtworkUri, albumId);
+
         holder.textView.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ARTIST)));
 
-        String album_art = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Albums.ALBUM_ART));
-
         Glide.with(context)
-                .load(album_art)
+                .load(sAlbumArtUri)
                 .placeholder(R.drawable.splash_icon)
                 .error(R.drawable.ic_launcher_background)
                 .fallback(R.drawable.ic_baseline_album_24)
@@ -66,6 +72,8 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsView
             super(itemView);
             textView = itemView.findViewById(R.id.albums_item_text);
             imageView = itemView.findViewById(R.id.albums_item_img);
+            imageView.setClipToOutline(true);
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

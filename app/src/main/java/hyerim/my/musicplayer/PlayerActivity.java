@@ -18,8 +18,11 @@ public class PlayerActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        String title = bundle.getString("title");
+        if(bundle != null){
+            String title = bundle.getString(MediaStore.Audio.Media.TITLE);
 //        String artist = bundle.getString("artist");
-        Log.i(TAG, "onCreate: " + title);
+            Log.i(TAG, "onCreate: " + title);
+        }
+
     }
 }
