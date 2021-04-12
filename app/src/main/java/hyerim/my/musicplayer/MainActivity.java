@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
         albumsFragment = new AlbumsFragment();
         folderFragment = new FolderFragment();
 
-//        selectEvent(playListFragment);
-
         playLayout.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
             startActivity(intent);
@@ -110,34 +108,24 @@ public class MainActivity extends AppCompatActivity {
         bottomView.setSelected(true);
     }
 
-    /*private void selectEvent(Fragment fragment){
-//        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
-        getSupportFragmentManager().beginTransaction().replace(R.id.viewPager2, fragment).commit();
-    }*/
-
     private final BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()){
                 case R.id.menu1:
-//                    selectEvent(playListFragment);
                     viewPager2.setCurrentItem(0);
                     return true;
                 case R.id.menu2:
                     viewPager2.setCurrentItem(1);
-//                    selectEvent(songFragment);
                     return true;
                 case R.id.menu3:
                     viewPager2.setCurrentItem(2);
-//                    selectEvent(artistFragment);
                     return true;
                 case R.id.menu4:
                     viewPager2.setCurrentItem(3);
-//                    selectEvent(albumsFragment);
                     return true;
                 case R.id.menu5:
                     viewPager2.setCurrentItem(4);
-//                    selectEvent(folderFragment);
                     return true;
             }
             return false;
