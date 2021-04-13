@@ -4,10 +4,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingComponent;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import hyerim.my.musicplayer.adapter.ViewPagerAdapter;
+import hyerim.my.musicplayer.databinding.ActivityMainBinding;
 import hyerim.my.musicplayer.fragment.AlbumsFragment;
 import hyerim.my.musicplayer.fragment.ArtistFragment;
 import hyerim.my.musicplayer.fragment.FolderFragment;
@@ -36,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private String TAG = MainActivity.class.getSimpleName();
     private Fragment playListFragment, songFragment, artistFragment, albumsFragment, folderFragment;
     private FragmentStateAdapter pagerAdapter;
-    private ViewPager2 viewPager2;
-    public BottomNavigationView bottomView;
+//    private ViewPager2 viewPager2;
+//    public BottomNavigationView bottomView;
+    private ActivityMainBinding binding;
 
     @Override
     protected void onStart() {
@@ -48,16 +52,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.Theme_MusicPlayer);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        binding.setMainActivity(this);
+
         checkPermission();
 //        FrameLayout frameLayout = findViewById(R.id.frameLayout);
-        viewPager2 = findViewById(R.id.viewPager2);
+//        viewPager2 = findViewById(R.id.viewPager2);
         pagerAdapter = new ViewPagerAdapter(this);
-        bottomView = findViewById(R.id.bottomNavigationView);
+//        bottomView = findViewById(R.id.bottomNavigationView);
         LinearLayout playLayout = findViewById(R.id.playLayout);
-        viewPager2.setAdapter(pagerAdapter);
+        binding.viewPager2.setAdapter(pagerAdapter);
 
-        bottomView.setOnNavigationItemSelectedListener(listener);
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(listener);
         playListFragment = new PlayListFragment();
         songFragment = new SongFragment();
         artistFragment = new ArtistFragment();
@@ -69,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
-        viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+        binding.viewPager2.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
@@ -80,32 +87,32 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (viewPager2.getCurrentItem() == 0) {
+        if (binding.viewPager2.getCurrentItem() == 0) {
             super.onBackPressed();
         } else {
-            viewPager2.setCurrentItem(viewPager2.getCurrentItem() - 1);
+            binding.viewPager2.setCurrentItem(binding.viewPager2.getCurrentItem() - 1);
         }
     }
 
     public void select(int position){
         switch (position){
             case 0:
-                bottomView.setSelectedItemId(R.id.menu1); //bottomNavigationView 선택하기
+                binding.bottomNavigationView.setSelectedItemId(R.id.menu1); //bottomNavigationView 선택하기
                 break;
             case 1:
-                bottomView.setSelectedItemId(R.id.menu2); //bottomNavigationView 선택하기
+                binding.bottomNavigationView.setSelectedItemId(R.id.menu2); //bottomNavigationView 선택하기
                 break;
             case 2:
-                bottomView.setSelectedItemId(R.id.menu3); //bottomNavigationView 선택하기
+                binding.bottomNavigationView.setSelectedItemId(R.id.menu3); //bottomNavigationView 선택하기
                 break;
             case 3:
-                bottomView.setSelectedItemId(R.id.menu4); //bottomNavigationView 선택하기
+                binding.bottomNavigationView.setSelectedItemId(R.id.menu4); //bottomNavigationView 선택하기
                 break;
             case 4:
-                bottomView.setSelectedItemId(R.id.menu5); //bottomNavigationView 선택하기
+                binding.bottomNavigationView.setSelectedItemId(R.id.menu5); //bottomNavigationView 선택하기
                 break;
         }
-        bottomView.setSelected(true);
+        binding.bottomNavigationView.setSelected(true);
     }
 
     private final BottomNavigationView.OnNavigationItemSelectedListener listener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -113,19 +120,19 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()){
                 case R.id.menu1:
-                    viewPager2.setCurrentItem(0);
+                    binding.viewPager2.setCurrentItem(0);
                     return true;
                 case R.id.menu2:
-                    viewPager2.setCurrentItem(1);
+                    binding.viewPager2.setCurrentItem(1);
                     return true;
                 case R.id.menu3:
-                    viewPager2.setCurrentItem(2);
+                    binding.viewPager2.setCurrentItem(2);
                     return true;
                 case R.id.menu4:
-                    viewPager2.setCurrentItem(3);
+                    binding.viewPager2.setCurrentItem(3);
                     return true;
                 case R.id.menu5:
-                    viewPager2.setCurrentItem(4);
+                    binding.viewPager2.setCurrentItem(4);
                     return true;
             }
             return false;

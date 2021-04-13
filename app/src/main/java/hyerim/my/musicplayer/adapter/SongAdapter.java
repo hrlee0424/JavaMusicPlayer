@@ -18,15 +18,19 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import hyerim.my.musicplayer.PlayerActivity;
 import hyerim.my.musicplayer.R;
+import hyerim.my.musicplayer.dto.Song;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder> {
     private String TAG = SongAdapter.class.getSimpleName();
     private final Cursor cursor;
     private final Context context;
+    public ArrayList<Song> songList;
     private String title, artist, album, album_art;
     Bundle bundle = new Bundle();
 

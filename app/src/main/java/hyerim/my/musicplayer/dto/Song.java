@@ -14,7 +14,7 @@ public class Song {
     private String displayName;
     private String albumArt;
 
-    public Song(String directory, String name, String artist, String album,  String year, String duration, String track, String displayName,String albumArt) {
+    /*public Song(String directory, String name, String artist, String album,  String year, String duration, String track, String displayName,String albumArt) {
         this.directory = directory;
         this.name = name;
         this.artist = artist;
@@ -24,6 +24,46 @@ public class Song {
         this.track = track;
         this.displayName = displayName;
         this.albumArt=albumArt;
+    }*/
+
+    public void setDirectory(String directory) {
+        this.directory = directory;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setArtist(String artist) {
+        this.artist = artist;
+    }
+
+    public void setAlbum(String album) {
+        this.album = album;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+    public void setDuration(String duration) {
+        this.duration = duration;
+    }
+
+    public void setTrack(String track) {
+        this.track = track;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public void setAlbumArt(String albumArt) {
+        this.albumArt = albumArt;
     }
 
     public String getDirectory() {

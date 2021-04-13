@@ -12,13 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import hyerim.my.musicplayer.R;
 import hyerim.my.musicplayer.RecyclerViewDecoration;
 import hyerim.my.musicplayer.adapter.SongAdapter;
+import hyerim.my.musicplayer.dto.Song;
 
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+
 public class SongFragment extends Fragment {
+    public ArrayList<Song> songList = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -52,7 +56,18 @@ public class SongFragment extends Fragment {
                 null,//Selection Arguments replacement for ? in where id=?
                 MediaStore.Audio.Media.TITLE);
 
+        /*while (media_cursor.moveToNext()){
+            Song song = new Song();
+            song.setName(media_cursor.getString(media_cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
+            song.setName(media_cursor.getString(media_cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
+            songList.add(song);
+        }
+
+        media_cursor.close();*/
+
+//        song_recyclerView.setAdapter(new SongAdapter(getContext(), media_cursor));
         song_recyclerView.setAdapter(new SongAdapter(getContext(), media_cursor));
+
         song_recyclerView.addItemDecoration(new RecyclerViewDecoration(10));
         DividerItemDecoration dividerItemDecoration =
                 new DividerItemDecoration(getContext(),new LinearLayoutManager(getContext()).getOrientation());
