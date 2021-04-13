@@ -3,4 +3,8 @@
     <dimen name="list_item_textSize">18dp</dimen>
     <dimen name="durationTextSize">14dp</dimen>
     <dimen name="play_bar_icon">30dp</dimen>
+
+    <dimen name="playActivityTitle">20sp</dimen>
+    <dimen name="playActivityArtist">14sp</dimen>
+
 </resources>

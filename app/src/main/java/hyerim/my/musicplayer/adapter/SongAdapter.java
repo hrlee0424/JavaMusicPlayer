@@ -3,12 +3,10 @@ package hyerim.my.musicplayer.adapter;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,15 +26,19 @@ import hyerim.my.musicplayer.dto.Song;
 
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder> {
     private String TAG = SongAdapter.class.getSimpleName();
-    private final Cursor cursor;
+//    private final Cursor cursor;
     private final Context context;
-    public ArrayList<Song> songList;
-    private String title, artist, album, album_art;
+    public List<Song> songList;
     Bundle bundle = new Bundle();
 
-    public SongAdapter(Context context, Cursor cursor){
+    /*public SongAdapter(Context context, Cursor cursor){
         this.context = context;
         this.cursor = cursor;
+    }*/
+
+    public SongAdapter(Context context, List songList){
+        this.context = context;
+        this.songList = songList;
     }
 
     @NonNull
@@ -49,7 +51,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull SongAdapter.SongViewHolder holder, int position) {
-        if ( !cursor.moveToPosition(position) ) {
+        /*if ( !cursor.moveToPosition(position) ) {
             cursor.moveToFirst();
         }
 
@@ -62,13 +64,36 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
         holder.song_list_text.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
         holder.song_list_artist.setText(cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
         holder.song_list_duration.setText(DateFormat.format("mm:ss", duration));
+*/
 
-        Glide.with(context)
+        if (!songList.isEmpty()){
+            holder.duration = songList.get(position).getDuration();
+            holder.albumId = songList.get(position).getAlbum_ID();
+            Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+            Uri sAlbumArtUri = ContentUris.withAppendedId(sArtworkUri, holder.albumId);
+            holder.title = songList.get(position).getTitle();
+            holder.artist = songList.get(position).getArtist();
+            holder.album = songList.get(position).getAlbum();
+            holder._id = songList.get(position).get_ID();
+
+            holder.song_list_text.setText(holder.title);
+            holder.song_list_duration.setText(DateFormat.format("mm:ss", holder.duration));
+            holder.song_list_artist.setText(holder.artist);
+
+            Glide.with(context)
+                    .load(sAlbumArtUri)
+//                .placeholder(R.drawable.splash_icon)
+                    .error(R.drawable.ic_baseline_album_24)
+                    .fallback(R.drawable.ic_baseline_album_24)
+                    .into(holder.song_list_img);
+        }
+
+        /*Glide.with(context)
                 .load(sAlbumArtUri)
 //                .placeholder(R.drawable.splash_icon)
                 .error(R.drawable.ic_baseline_album_24)
                 .fallback(R.drawable.ic_baseline_album_24)
-                .into(holder.song_list_img);
+                .into(holder.song_list_img);*/
 
 //        album_art = cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ARTIST));
         /*holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -92,13 +117,18 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
 
     @Override
     public int getItemCount() {
-        return cursor.getCount();
+//        return cursor.getCount();
+        return songList.size();
+
     }
 
 
     class SongViewHolder extends RecyclerView.ViewHolder{
         TextView song_list_text, song_list_artist, song_list_duration;
         ImageView song_list_img;
+        long duration;
+        Long albumId, _id;
+        String title, artist, album;
 
         public SongViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -111,13 +141,16 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.SongViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(context, song_list_text.getText().toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, title, Toast.LENGTH_SHORT).show();
 
                     Intent intent = new Intent(v.getContext(), PlayerActivity.class);
-                    bundle.putLong(MediaStore.Audio.Media._ID, cursor.getLong(cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
-                    bundle.putString(MediaStore.Audio.Media.TITLE, cursor.getString(cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
-                    bundle.putString(MediaStore.Audio.Media.ARTIST, artist);
-                    bundle.putString(MediaStore.Audio.Media.ALBUM, album);
+                    bundle.putLong("albumId", albumId);
+                    bundle.putString("title", title);
+                    bundle.putString("artist", artist);
+                    bundle.putString("album", album);
+                    bundle.putLong("duration", duration);
+                    bundle.putLong("_id", _id);
+
 //                    bundle.putString(MediaStore.Audio.Media.DURATION, +min+":"+(seconds%60));
 //                    bundle.putString("album_art", album_art);
                     intent.putExtras(bundle);

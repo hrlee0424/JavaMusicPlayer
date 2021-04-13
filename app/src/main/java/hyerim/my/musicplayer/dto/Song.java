@@ -1,18 +1,18 @@
 package hyerim.my.musicplayer.dto;
 
-import androidx.annotation.NonNull;
-
 public class Song {
+    private Long _ID;
+    private Long album_ID;
+    private String title;
+    private Long duration;
+    private String albumArt;
     private String directory;
-    private String name;
     private String artist;
     private String album;
     private String genre;
     private String year;
-    private String duration;
     private String track;
     private String displayName;
-    private String albumArt;
 
     /*public Song(String directory, String name, String artist, String album,  String year, String duration, String track, String displayName,String albumArt) {
         this.directory = directory;
@@ -26,12 +26,28 @@ public class Song {
         this.albumArt=albumArt;
     }*/
 
-    public void setDirectory(String directory) {
-        this.directory = directory;
+    public void setAlbum_ID(Long album_ID) {
+        this.album_ID = album_ID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Long getAlbum_ID() {
+        return album_ID;
+    }
+
+    public void set_ID(Long _ID) {
+        this._ID = _ID;
+    }
+
+    public Long get_ID() {
+        return _ID;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDirectory(String directory) {
+        this.directory = directory;
     }
 
     public void setArtist(String artist) {
@@ -50,7 +66,7 @@ public class Song {
         this.year = year;
     }
 
-    public void setDuration(String duration) {
+    public void setDuration(Long duration) {
         this.duration = duration;
     }
 
@@ -70,8 +86,8 @@ public class Song {
         return directory;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
     public String getArtist() {
@@ -90,7 +106,7 @@ public class Song {
         return year;
     }
 
-    public String getDuration() {
+    public Long getDuration() {
         return duration;
     }
 

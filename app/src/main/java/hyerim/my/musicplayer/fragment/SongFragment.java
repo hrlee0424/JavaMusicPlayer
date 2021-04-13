@@ -56,17 +56,22 @@ public class SongFragment extends Fragment {
                 null,//Selection Arguments replacement for ? in where id=?
                 MediaStore.Audio.Media.TITLE);
 
-        /*while (media_cursor.moveToNext()){
+        while (media_cursor.moveToNext()){
             Song song = new Song();
-            song.setName(media_cursor.getString(media_cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
-            song.setName(media_cursor.getString(media_cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
+            song.setTitle(media_cursor.getString(media_cursor.getColumnIndex(MediaStore.Audio.Media.TITLE)));
+            song.setAlbum_ID(media_cursor.getLong(media_cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM_ID)));
+            song.setAlbum(media_cursor.getString(media_cursor.getColumnIndex(MediaStore.Audio.Media.ALBUM)));
+//            song.setDirectory(media_cursor.getString(media_cursor.getColumnIndex(MediaStore.Audio.Media.)));
+            song.set_ID(media_cursor.getLong(media_cursor.getColumnIndex(MediaStore.Audio.Media._ID)));
+            song.setArtist(media_cursor.getString(media_cursor.getColumnIndex(MediaStore.Audio.Media.ARTIST)));
+            song.setDuration(media_cursor.getLong(media_cursor.getColumnIndex(MediaStore.Audio.Media.DURATION)));
             songList.add(song);
         }
 
-        media_cursor.close();*/
+        media_cursor.close();
 
 //        song_recyclerView.setAdapter(new SongAdapter(getContext(), media_cursor));
-        song_recyclerView.setAdapter(new SongAdapter(getContext(), media_cursor));
+        song_recyclerView.setAdapter(new SongAdapter(getContext(), songList));
 
         song_recyclerView.addItemDecoration(new RecyclerViewDecoration(10));
         DividerItemDecoration dividerItemDecoration =
