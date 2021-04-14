@@ -11,11 +11,13 @@ import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.bumptech.glide.Glide;
 
@@ -33,6 +35,7 @@ public class PlayerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_player);
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_player);
         binding.setPlayerActivity(this);
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -74,7 +77,7 @@ public class PlayerActivity extends AppCompatActivity {
                 .fallback(R.drawable.ic_baseline_album_24)
                 .into(binding.artistImage);
 
-        Drawable pauseImg = getResources().getDrawable(R.drawable.ic_pause1);
+        Drawable pauseImg = getResources().getDrawable( R.drawable.ic_pause1);
         Drawable playImg = getResources().getDrawable(R.drawable.ic_play_button);
 
         mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -83,6 +86,22 @@ public class PlayerActivity extends AppCompatActivity {
                 mediaPlayer.start();
                 binding.playBtn.setImageDrawable(pauseImg);
                 playing = true;
+
+                Intent intent1 = new Intent(getApplicationContext(), MusicService.class);
+                intent1.putExtra("albumId",albumId);
+                intent1.putExtra("title",title);
+                intent1.putExtra("artist",artist);
+                intent1.putExtra("album",album);
+                intent1.putExtra("duration",duration);
+                intent1.putExtra("_id",_id);
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {   //오레오버전 이상
+//                    startForegroundService(new Intent(getApplicationContext(), MusicService.class));
+                    startForegroundService(intent1);
+                }else{
+                    startService(intent1);
+//                    startService(new Intent(getApplicationContext(), MusicService.class));
+                }
                 Log.i(TAG, "onPrepared: " + "start111111111111");
             }
         });
