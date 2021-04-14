@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import hyerim.my.musicplayer.adapter.ViewPagerAdapter;
-import hyerim.my.musicplayer.databinding.ActivityMainBinding;
+import hyerim.my.musicplayer.databinding.MainActivityBinding;
 import hyerim.my.musicplayer.fragment.AlbumsFragment;
 import hyerim.my.musicplayer.fragment.ArtistFragment;
 import hyerim.my.musicplayer.fragment.FolderFragment;
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private FragmentStateAdapter pagerAdapter;
 //    private ViewPager2 viewPager2;
 //    public BottomNavigationView bottomView;
-    private ActivityMainBinding binding;
+    private MainActivityBinding binding;
 
     @Override
     protected void onStart() {

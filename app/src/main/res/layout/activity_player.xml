@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <data class="PlayerActivityBinding">
         <variable
             name="playerActivity"
             type="hyerim.my.musicplayer.PlayerActivity"/>
@@ -52,6 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        app:tint="@color/playBtnColor"
         android:src="@drawable/ic_back"/>
 
     <ImageView
@@ -59,13 +60,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="2"
-        android:src="@drawable/ic_play_button"/>
+        android:src="@drawable/ic_play_button"
+        app:tint="@color/playBtnColor" />
 
     <ImageView
         android:id="@+id/playNext"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        app:tint="@color/playBtnColor"
         android:src="@drawable/ic_next"/>
 
     </LinearLayout>
