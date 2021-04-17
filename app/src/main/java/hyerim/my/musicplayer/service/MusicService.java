@@ -1,5 +1,6 @@
 package hyerim.my.musicplayer.service;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -13,11 +14,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.IBinder;
 import android.provider.MediaStore;
+import android.support.v4.media.session.MediaSessionCompat;
+import android.support.v4.media.session.PlaybackStateCompat;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import hyerim.my.musicplayer.MainActivity;
@@ -32,6 +36,11 @@ public class MusicService extends Service {
     private Context context;
     private long albumId, _id;
     private String CHANNEL_ID;
+    private MediaSessionCompat mediaSession;
+    private PlaybackStateCompat.Builder stateBuilder;
+    static final String PLAY_PAUSE_ACTION = "hyerim.my.musicplayer.PLAYPAUSE";
+    static final String NEXT_ACTION = "hyerim.my.musicplayer.NEXT";
+    static final String PREV_ACTION = "hyerim.my.musicplayer.PREV";
 
     @Nullable
     @Override
@@ -42,6 +51,22 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Create a MediaSessionCompat
+        mediaSession = new MediaSessionCompat(context, "");
+
+        // Enable callbacks from MediaButtons and TransportControls
+        mediaSession.setFlags(
+                MediaSessionCompat.FLAG_HANDLES_MEDIA_BUTTONS |
+                        MediaSessionCompat.FLAG_HANDLES_TRANSPORT_CONTROLS);
+
+        // Set an initial PlaybackState with ACTION_PLAY, so media buttons can start the player
+        stateBuilder = new PlaybackStateCompat.Builder()
+                .setActions(
+                        PlaybackStateCompat.ACTION_PLAY |
+                                PlaybackStateCompat.ACTION_PLAY_PAUSE);
+        mediaSession.setPlaybackState(stateBuilder.build());
+
 
         Log.i(TAG, "onCreate: MusicService");
     }
@@ -93,7 +118,7 @@ public class MusicService extends Service {
             CHANNEL_ID = "service_channel";
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
                     "smart_channel",
-                    NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationManager.IMPORTANCE_LOW);//알림음제거
             channel.enableVibration(false);
 
             ((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE))
@@ -115,10 +140,34 @@ public class MusicService extends Service {
         builder.setSmallIcon(R.mipmap.ic_launcher)
                 .setContent(remoteViews)
                 .setLargeIcon(bitmap)
+//                .addAction(notificationAction(PREV_ACTION))
+//                .addAction(notificationAction(PLAY_PAUSE_ACTION))
+//                .addAction(notificationAction(NEXT_ACTION))
                 .setContentIntent(pendingIntent);
 
         startForeground(1, builder.build());
     }
+
+    /*@NonNull
+    private NotificationCompat.Action notificationAction(@NonNull final String action) {
+
+        int icon;
+
+        switch (action) {
+            default:
+            case PREV_ACTION:
+                icon = R.drawable.ic_back;
+                break;
+            case PLAY_PAUSE_ACTION:
+                icon = R.drawable.ic_pause1;
+                //icon = mMusicService.getMediaPlayerHolder().getState() != PlaybackInfoListener.State.PAUSED ? R.drawable.ic_pause_notification : R.drawable.ic_play_notification;
+                break;
+            case NEXT_ACTION:
+                icon = R.drawable.ic_next;
+                break;
+        }
+        return new NotificationCompat.Action.Builder(icon, action, playerAction(action)).build();
+    }*/
 
 
 }
