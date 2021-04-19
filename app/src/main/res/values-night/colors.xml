@@ -2,5 +2,5 @@
 <resources>
     <color name="bottomIconColor">#D3D1D1</color>
     <color name="playBtnColor">#FFFFFF</color>
-    <color name="playBarBackColor">#514F4F</color>
+    <color name="playBarBackColor">#121212</color>
 </resources>

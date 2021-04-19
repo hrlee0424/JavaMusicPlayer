@@ -2,8 +2,10 @@ package hyerim.my.musicplayer.adapter;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import hyerim.my.musicplayer.AlbumActivity;
 import hyerim.my.musicplayer.R;
 import hyerim.my.musicplayer.dto.Album;
 
@@ -27,6 +30,7 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsView
     private Cursor cursor;
     private Context context;
     private List<Album> albumList;
+    Bundle bundle = new Bundle();
 
     /*public AlbumsAdapter(Context context, Cursor cursor){
         this.context = context;
@@ -98,10 +102,13 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.AlbumsView
             imageView = itemView.findViewById(R.id.albums_item_img);
             imageView.setClipToOutline(true);
 
-            /*itemView.setOnClickListener(v -> {
-                Toast.makeText(context, (int) id,Toast.LENGTH_SHORT).show();
-                Log.i(TAG, "AlbumsViewHolder: " + (int) id);
-            });*/
+            itemView.setOnClickListener(v -> {
+                Intent intent = new Intent(v.getContext(), AlbumActivity.class);
+                bundle.putLong("albumId", albumId);
+                bundle.putString("artist", textView.getText().toString());
+                intent.putExtras(bundle);
+                v.getContext().startActivity(intent);
+            });
         }
     }
 }
